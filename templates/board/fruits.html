@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #ccc; /* 상하좌우 모두 선 */
+        padding: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action"
+        >첫번째 과일 : {{ fruits_list.0 }}</a
+      >
+      <a href="#" class="list-group-item list-group-item-action"
+        >두번째 과일 : {{ fruits_list.1 }}</a
+      >
+      <a href="#" class="list-group-item list-group-item-action"
+        >세번째 과일 : {{ fruits_list.2 }}</a
+      >
+      <a href="#" class="list-group-item list-group-item-action"
+        >네번째 과일 : {{ fruits_list.3 }}</a
+      >
+
+      <hr />
+
+      <ul>
+        {% for fruit in fruits_list %}
+        <li>{{fruit}}</li>
+        {% endfor %}
+      </ul>
+
+      <hr />
+
+      <div class="list-group">
+        {% for fruit in fruits_list %}
+        <a a href="#" class="list-group-item list-group-item-action">
+          {{fruit}}
+        </a>
+        {% endfor %}
+      </div>
+
+      <hr />
+
+      <table border="1">
+        {% for fruit in fruits_list %}
+        <tr>
+          {% for fruit in fruits_list %}
+          <td>{{fruit}}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+
+      <table class="table table-hover">
+        {% for fruit in fruits_list %}
+        <tr>
+          {% for fruit in fruits_list %}
+          <td>{{fruit}}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

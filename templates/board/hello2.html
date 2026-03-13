@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>처음 만드는 템플릿</title>
+    <style>
+      h1 {
+        background-color: azure;
+      }
+
+      p {
+        padding: 40px;
+        border: 1px solid #595959;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- {#{ }} : DTL / 안적으면 TemplateSyntaxError at /hello/ 라고 문법 오류가 난다-->
+    <h1>안녕하세요! {{ name }}님</h1>
+    <p>나이 : {{ age }}</p>
+    <p>서식지 : {{ addr }}</p>
+    <!--다른 것을 적어도 오류는 안 나고 문자가 그저 안 나온다. 확실하게 언어를 구별할 것 -->
+    <p>board 앱의 첫 번째 템플릿입니다.</p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      //   $("h1").html("안녕하세요! 배고파요....");
+    </script>
+  </body>
+</html>

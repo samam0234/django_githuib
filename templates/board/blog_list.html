@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>게시글 목록</title>
+  </head>
+  <body>
+    <h1>게시글 목록</h1>
+
+    <!-- 첫 번째 게시글 -->
+    <div>
+      <h2>{{ posts.0.title|truncatechars:20 }}</h2>
+      <p>{{ posts.0.content|truncatechars:50 }}</p>
+      <small>
+        작성자: {{ posts.0.author|upper }} | 날짜: {{
+        posts.0.created_at|date:"Y.m.d" }} | 공지: {{
+        posts.0.is_notice|yesno:"예,아니오" }}
+      </small>
+    </div>
+
+    <hr />
+
+    <!-- 두 번째 게시글 -->
+    <div>
+      <h2>{{ posts.1.title|truncatechars:20 }}</h2>
+      <p>{{ posts.1.content|truncatechars:50 }}</p>
+      <small>
+        작성자: {{ posts.1.author|upper }} | 날짜: {{
+        posts.1.created_at|date:"Y.m.d" }} | 공지: {{
+        posts.1.is_notice|yesno:"예,아니오" }}
+      </small>
+    </div>
+  </body>
+</html>

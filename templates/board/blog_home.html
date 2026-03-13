@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h1>{{ blog_name }}</h1>
+      <p>총 게시글 수 : {{ post_count }}</p>
+      <h2>최근 게시물</h2>
+
+      {# 아래를 for문으로 깔끔하게 돌려BoA욤 #}
+      <ul>
+        {% for post in recent_posts %}
+        <li>{{ post }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
