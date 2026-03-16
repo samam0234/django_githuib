@@ -15,6 +15,14 @@ posts = {
         3: "세 번째 게시글입니다.",
     }
 
+def post_list(request) :
+    return render(request, 'board/post_list.html')
+
+
+def post_detail(request, pk) : 
+    return render(request, 'board/post_detail.html')
+
+
 def hello(request) :
     myInfo = {
         'name' : '둘리',
@@ -73,16 +81,7 @@ def hello2(request) :
     }
     return render(request, 'board/hello2.html', myInfo)
 
-def post_list(request) :
-    html = """
-    <h1>게시판</h1>
-    
-    <p>서버 목록 확인 가능</p>
-    <script>
-        alert('!');
-    </script>
-    """
-    return HttpResponse("this page is board page.", status=200, content_type="text/plain")
+
 
 def board_list(request):
     posts = [
@@ -100,14 +99,7 @@ def board_list(request):
     }
     return render(request, 'board/board_list.html', context)
 
-def post_detail(request, pk) :
-    # model단을 이용하여 데이터베이스의 게시글 테이블에서 pk번 글을 얻어와야 한다.
-    
-    if pk in posts :
-        content = posts[pk]
-        return HttpResponse(f"<h2>{pk}번 게시글</h2><p>{content}</p>")
-    else :
-        return HttpResponse(f"{pk}번 게시글은 존재하지 않습니다...")
+
 
 def old_page(request) :
     return HttpResponseRedirect('/board/')

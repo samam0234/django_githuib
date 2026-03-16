@@ -6,15 +6,18 @@ urlpatterns = [
     # path('경로/', 실행할 함수의 위치)
     path('', views.post_list),    # 게시글 전체 목록
     path('board/<int:pk>', views.post_detail),   # 게시글의 특정 글(게시글 상세보기)
-    path('hello/', views.hello),
-    path('hello2/', views.hello2),
-    path('profile/', views.profile),
-    path('fruits/', views.fruits),
-    path('post_detail2/', views.post_detail2),
-    path('home/', views.home),
-    path('blog_home/', views.blog_home),
-    path('blog_list/', views.blog_list),
-    path('board_list/', views.board_list),
-    path('old/', views.old_page),
-    path('subquery/', views.subquery)
+
+
+    # path('hello/', views.hello),
+    # path('hello2/', views.hello2),
+    # path('profile/', views.profile),
+    # path('fruits/', views.fruits),
+    # path('post_detail2/', views.post_detail2),
+    # path('home/', views.home),
+    # path('blog_home/', views.blog_home),
+    # path('blog_list/', views.blog_list),
+    # path('board_list/', views.board_list),
+    # path('base/', views.base),
+    # path('old/', views.old_page),
+    # path('subquery/', views.subquery)
 ]
