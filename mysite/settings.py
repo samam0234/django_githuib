@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # 이 프로젝트의 최상위 폴더가 어디인지 저장하는 변수
@@ -83,10 +84,21 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 # 데이터베이스 설정(기본으로 sqlits버전이 동록 되어 있다.)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',  # MariaDB도 MySQL 엔진 사용
+        'NAME': 'mydb',                         # DB 이름
+        'USER': 'root',                       # 사용자
+        'PASSWORD': '1234',                     # 비밀번호
+        'HOST': '127.0.0.1',                    # DB 서버
+        'PORT': '3307',                         # 포트
     }
 }
 
@@ -126,4 +138,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 # CSS, JS, Image 등과 같은 정적파일의 URL 경로 설정
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
