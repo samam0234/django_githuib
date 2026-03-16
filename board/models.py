@@ -5,7 +5,7 @@ from django.db import models
 
 class Post(models.Model) :
     # 제목 : 짧은 문자열, 최대 200자
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=300)
     # 내용 : 여러줄 텍스트
     content = models.TextField()
 
@@ -16,8 +16,9 @@ class Post(models.Model) :
         null=True                  # DB에 NULL 허용
     )
 
-    # ④ 조회수: 정수, 기본값 0
-    view_count = models.IntegerField(default=0)
+
+    # 공지글 여부
+    is_notice = models.BooleanField(default=False)
 
     # ⑤ 작성일: 처음 저장될 때 자동 기록
     created_at = models.DateTimeField(auto_now_add=True)
