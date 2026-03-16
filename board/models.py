@@ -3,31 +3,62 @@ from django.db import models
 # 여기에 데이터 모델(테이블 구조)을 작성합니다.
 # 예 : 게시글 모델, 댓글 모델 등
 
-class Post(models.Model) :
-    # 제목 : 짧은 문자열, 최대 200자
-    title = models.CharField(max_length=300)
-    # 내용 : 여러줄 텍스트
-    content = models.TextField()
+class Post(models.Model):
+    """
+    게시판 게시글 모델
+    - 제목, 내용, 파일 첨부, 조회수, 공지 여부, 작성일, 수정일
+    - 작성자(ForeignKey)는 25장에서 추가 예정
+    """
 
-# ③ 첨부 파일: 선택 첨부 (없어도 됨)
-    attachment = models.FileField(
-        upload_to='attachments/',  # MEDIA_ROOT/attachments/ 에 저장
-        blank=True,                # 폼에서 비워둬도 됨
-        null=True                  # DB에 NULL 허용
+    # ① 제목 (필수, 최대 200자)
+    title = models.CharField(
+        max_length=200,
+        verbose_name='제목'
     )
 
+    # ② 본문 (필수, 길이 제한 없음)
+    content = models.TextField(
+        verbose_name='내용'
+    )
 
-    # 공지글 여부
-    is_notice = models.BooleanField(default=False)
+    # ③ 첨부파일 (선택, 모든 파일 형식 허용)
+    attachment = models.FileField(
+        upload_to='attachments/%Y/%m/',   # 연/월 폴더로 자동 분류
+        blank=True,
+        null=True,
+        verbose_name='첨부파일'
+    )
 
-    # ⑤ 작성일: 처음 저장될 때 자동 기록
-    created_at = models.DateTimeField(auto_now_add=True)
+    # ④ 조회수 (기본값 0, 직접 입력하지 않음)
+    view_count = models.IntegerField(
+        default=0,
+        verbose_name='조회수'
+    )
 
-    # ⑥ 수정일: 저장될 때마다 자동 갱신
-    updated_at = models.DateTimeField(auto_now=True)
+    # ⑤ 공지 여부 (기본값 False)
+    is_notice = models.BooleanField(
+        default=False,
+        verbose_name='공지'
+    )
 
-    def __str__(self):  # toString() : 디버깅을 편리하게 하기 위해 객체를 출력하면
-        return self.title   # 객체주소가 아닌 게시글의 제목이 출력되도록.
-    
+    # ⑥ 작성일시 (처음 저장될 때 자동 기록)
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='작성일'
+    )
+
+    # ⑦ 수정일시 (저장될 때마다 자동 갱신)
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='수정일'
+    )
+
+    def __str__(self):
+        """Admin 페이지 등에서 게시글을 표시할 때 제목으로 보임"""
+        return self.title
+
     class Meta:
-        ordering = ['-created_at']  # 최신 글이 위에 오도록 정렬(내림차순 정렬)
+        verbose_name = '게시글'
+        verbose_name_plural = '게시글 목록'
+        ordering = ['-is_notice', '-created_at']
+        # 공지글을 먼저, 그 다음 최신 순으로 정렬
