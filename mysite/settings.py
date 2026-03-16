@@ -142,3 +142,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+# 미디어 파일(업로드 파일)이 저장될 실제 폴더 경로
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# 브라우저가 미디어 파일에 접근할 때 쓸 URL 접두사 설정
+MEDIA_URL = '/media/'

@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # path('경로/', 실행할 함수의 위치)
@@ -23,3 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('board/', include('board.urls'))
 ]
+
+# 개발 환경에서만 미디어 파일 서빙
+# 배포 환경 (nginx 서버, AWS S3가 미디어 파일을 처리함)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
