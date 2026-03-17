@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime
+from board.models import Post
 
 # 여기에 view 함수를 작성합니다.
 # 예 : 게시글 목록 보기, 게시글 작성 등
@@ -8,15 +9,14 @@ from datetime import datetime
 # 반드시 응답을(return)을 돌려줘야 한다.
 # 예 : 게시글 목록 보기, 게시글 작성 등
 
-# dummy
-posts = {
-        1: "첫 번째 게시글입니다.",
-        2: "두 번째 게시글입니다.",
-        3: "세 번째 게시글입니다.",
-    }
+
 
 def post_list(request) :
-    return render(request, 'board/post_list.html')
+    posts = Post.objects.all();
+    context = {
+        'posts' : posts # context에 담기
+    }
+    return render(request, 'board/post_list.html', context)  # 템플릿으로 전달
 
 
 def post_detail(request, pk) : 
