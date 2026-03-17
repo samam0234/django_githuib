@@ -29,6 +29,8 @@ class Post(models.Model):
         verbose_name='첨부파일'
     )
 
+    image = models.ImageField(upload_to='image/', blank=True, null=True)
+
     # ④ 조회수 (기본값 0, 직접 입력하지 않음)
     view_count = models.IntegerField(
         default=0,

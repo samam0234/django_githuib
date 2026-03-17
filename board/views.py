@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import datetime
 from board.models import Post
+from django.shortcuts import get_object_or_404
 
 # 여기에 view 함수를 작성합니다.
 # 예 : 게시글 목록 보기, 게시글 작성 등
@@ -24,7 +25,25 @@ def post_list(request) :
 
 
 def post_detail(request, pk) : 
-    post = Post.objects.get(id=pk)
+    # get_object_or_404(Model, 조건)
+    # post = get_object_or_404(Post, id=pk)     # pk번 글이 있으면 그 글의 데이터를 반환하고, 없으면 404
+
+    # pk번 글이 있으면 그 글의 데이터를 반환하고,
+    # 없으면 유저에게 에러메시지를 출력한뒤 '목록 페이지'로 이동하도록....
+    post = Post.objects.filter(id=pk).first()   
+    # filter는 없으면 None 반환, get() 없으면 예외발생(에러페이지)
+    
+    if post is None :   # 게시글이 없으면...
+        output = """
+        <script>
+            alert('존재하지 않는 게시글 입니다!');
+            location.href='/board/';
+        </script>
+"""
+
+        return HttpResponse(output)
+    
+    # 게시글이 존재하면?
     context = {
         'post' : post
     }

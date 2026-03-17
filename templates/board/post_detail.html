@@ -11,8 +11,18 @@
             {{ post.created_at }}
         </p>
         <hr>
-        <p>{{ post.content }}</p>
+        <p>{{ post.content|linebreaks }}</p>
     </div>
+
+    {% if post.attachment %}
+    <div class="mt-4">
+      <label class="form-label fw-bold">첨부파일:</label>
+      <a href="{{ post.attachment.url }}" class="btn btn-outline-primary ms-2" download>
+        {{ post.attachment.name }}
+      </a>
+    </div>
+     {% endif %}
+
     <div class="card-footer text-end">
         <a href="/board/" class="btn btn-secondary">목록으로</a>
         <a href="#" class="btn btn-warning">수정</a>
