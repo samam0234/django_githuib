@@ -9,6 +9,12 @@ from board.models import Post
 # 반드시 응답을(return)을 돌려줘야 한다.
 # 예 : 게시글 목록 보기, 게시글 작성 등
 
+# 여러 데이터 한꺼번에 전달하기
+def home(request):
+
+    return render(request, 'index.html')    # 홈 페이지
+
+
 def post_list(request) :
     posts = Post.objects.all(); # 모든 게시글 목록 조회
     context = {
@@ -26,10 +32,6 @@ def post_detail(request, pk) :
     return render(request, 'board/post_detail.html', context)
 
 
-# # 여러 데이터 한꺼번에 전달하기
-def home(request):
-
-    return render(request, 'index.html')    # 홈 페이지
 
 # def hello(request) :
 #     myInfo = {
@@ -76,6 +78,18 @@ def home(request):
 #     }
 #     return render(request, 'board/hello2.html', myInfo)
 
+# def blog_home(request):
+#     context = {
+#         'blog_name': '홍길동의 블로그',
+#         'post_count': 5,
+#         'is_owner': True,
+#         'recent_posts': [
+#             '첫 번째 게시글',
+#             '두 번째 게시글',
+#             '세 번째 게시글',
+#         ],
+#     }
+#     return render(request, 'blog_home.html', context)
 
 
 # def board_list(request):
