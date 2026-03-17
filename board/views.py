@@ -42,15 +42,13 @@ def post_detail(request, pk) :
 """
 
         return HttpResponse(output)
-    
+
     # 게시글이 존재하면?
     context = {
         'post' : post
     }
     # return render(request, 'board/post_detail.html', {'post' : Post.objects.get(id=pk)})
     return render(request, 'board/post_detail.html', context)
-
-
 
 # def hello(request) :
 #     myInfo = {

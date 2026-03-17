@@ -14,6 +14,12 @@
         <p>{{ post.content|linebreaks }}</p>
     </div>
 
+    {% if post.image %}
+    <div class="mb-3">
+        <img src="{{ post.image.url }}" alt="{{post.title}}images">
+    </div>
+    {% endif %}
+
     {% if post.attachment %}
     <div class="mt-4">
       <label class="form-label fw-bold">첨부파일:</label>
