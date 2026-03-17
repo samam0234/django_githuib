@@ -4,14 +4,14 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="mb-0">게시글 제목이 여기에 표시됩니다</h4>
+        <h4 class="mb-0">{{ post.title }}</h4>
     </div>
     <div class="card-body">
         <p class="text-muted mb-3">
-            작성자: 홍길동 | 날짜: 2025-01-01
+            {{ post.created_at }}
         </p>
         <hr>
-        <p>게시글 본문 내용이 여기에 표시됩니다.</p>
+        <p>{{ post.content }}</p>
     </div>
     <div class="card-footer text-end">
         <a href="#" class="btn btn-secondary">목록으로</a>
