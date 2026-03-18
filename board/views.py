@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from datetime import datetime
-from board.models import Post
+import datetime
+from board.models import Post, Postview
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 # 여기에 view 함수를 작성합니다.
 # 예 : 게시글 목록 보기, 게시글 작성 등
@@ -27,7 +28,6 @@ def post_list(request) :
 def post_detail(request, pk) : 
     # get_object_or_404(Model, 조건)
     # post = get_object_or_404(Post, id=pk)     # pk번 글이 있으면 그 글의 데이터를 반환하고, 없으면 404
-
     # pk번 글이 있으면 그 글의 데이터를 반환하고,
     # 없으면 유저에게 에러메시지를 출력한뒤 '목록 페이지'로 이동하도록....
     post = Post.objects.filter(id=pk).first()   
@@ -44,11 +44,48 @@ def post_detail(request, pk) :
         return HttpResponse(output)
 
     # 게시글이 존재하면?
+    # ip주소를 추출해옴
+    
+    ip_address = get_client_ip(request)
+
+    # 해당 ip주소를 가진 사람이 해당 글을 24시간 이내에 조회한 기록이 없다 - 조회수증가, 조회기록저장
+    # 해당 ip주소를 가진 사람이 해당 글을 24시간 이내에 조회한 기록이 있다 - 조회수증가X, 조회기록저장X
+    
+    # 24시간 전 시각 계산
+    time_24h_ago = timezone.now() - datetime.timedelta(hours=24)
+    
+    already_viewed = Postview.objects.filter(
+        post=post,
+        ip_address=ip_address,
+        viewed_at__gte=time_24h_ago
+    ).exists()
+
+    if not already_viewed : # 조회기록 없다 -> 조회수증가, 조회기록저장
+        post.view_count += 1    # 해당 글의 조회수 1 증가
+        post.save(update_fields=['view_count'])   # 해당 글(Post) update
+        
+        # PostView(조회수증가테이블)에 insert
+        Postview.objects.create(post=post, ip_address=ip_address)   
+
+
+
     context = {
         'post' : post
     }
     # return render(request, 'board/post_detail.html', {'post' : Post.objects.get(id=pk)})
     return render(request, 'board/post_detail.html', context)
+
+def get_client_ip(request) :
+    """
+        client_ip주소를 얻어오는 함수
+    """
+    # 프록시 서버를 거쳤을 때는 HTTP_X_FORWARDED_FOR 헤더에 ip주소가 담김
+    http_x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+    if http_x_forwarded_for :
+        ip = http_x_forwarded_for.split(',')[0].strip()
+    else :
+        ip = request.META.get("REMOTE_ADDR")
+    return ip
 
 # def hello(request) :
 #     myInfo = {

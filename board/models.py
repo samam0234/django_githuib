@@ -69,10 +69,11 @@ class Post(models.Model):
 class Postview(models.Model) :
     # 조회되는 글번호(부모는 Post모델의 PK를 참조, 부모 PK가 삭제되면 같이(cascade) 삭제되도록 함)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    ip_adderss = models.GenericIPAddressField   # IP주소 저장 필드
+    ip_address = models.GenericIPAddressField(blank=True,
+        null=True)   # IP주소 저장 필드
     viewed_at = models.DateTimeField(auto_now_add=True, 
                                      verbose_name='조회일시')
     
     def __str__(self):
-        return f"{self.post.title} - {self.ip_adderss}"
+        return f"{self.post.title} - {self.ip_address}"
     
