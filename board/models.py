@@ -31,8 +31,8 @@ class Post(models.Model):
 
     image = models.ImageField(upload_to='image/', blank=True, null=True)
 
-    # ④ 조회수 (기본값 0, 직접 입력하지 않음)
-    view_count = models.IntegerField(
+    # ④ 조회수 (기본값 0, 직접 입력하지 않음, PositiveIntegerField : 0이상의 양의정수만 저장)
+    view_count = models.PositiveIntegerField(
         default=0,
         verbose_name='조회수'
     )
@@ -64,3 +64,15 @@ class Post(models.Model):
         verbose_name_plural = '게시글 목록'
         ordering = ['-is_notice', '-created_at']
         # 공지글을 먼저, 그 다음 최신 순으로 정렬
+
+# IP기반 조회수 중복 방지 알고리즘을 이용한 조회수 기능 구현 모델
+class Postview(models.Model) :
+    # 조회되는 글번호(부모는 Post모델의 PK를 참조, 부모 PK가 삭제되면 같이(cascade) 삭제되도록 함)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    ip_adderss = models.GenericIPAddressField   # IP주소 저장 필드
+    viewed_at = models.DateTimeField(auto_now_add=True, 
+                                     verbose_name='조회일시')
+    
+    def __str__(self):
+        return f"{self.post.title} - {self.ip_adderss}"
+    

@@ -14,12 +14,15 @@
         <p>{{ post.content|linebreaks }}</p>
     </div>
 
+    <!-- 첨부 이미지 (있을때만 표시) -->
     {% if post.image %}
-    <div class="mb-3">
+    <div class="post-image mt-3">
+        <p class="text-muted small mb-2">📷 첨부 이미지</p>
         <img src="{{ post.image.url }}" alt="{{post.title}}images">
     </div>
     {% endif %}
-
+    
+    <!-- 첨부 파일 (있을때만 표시) -->
     {% if post.attachment %}
     <div class="mt-4">
       <label class="form-label fw-bold">첨부파일:</label>
