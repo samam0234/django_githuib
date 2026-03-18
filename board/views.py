@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import datetime
 from board.models import Post, Postview
-from django.shortcuts import get_object_or_404
+from .forms import PostForm
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 
 # 여기에 view 함수를 작성합니다.
@@ -86,6 +87,27 @@ def get_client_ip(request) :
     else :
         ip = request.META.get("REMOTE_ADDR")
     return ip
+
+def post_create(request) :
+    """
+        게시글 작성 버튼을 누르면 빈 폼이 있는 페이지가 응답되어야 하고,
+        게시글 작성 후 "저장" 버튼을 누르면, 게시글이 db에 저장되고 업로드한 파일이 웹서버에 저장
+        되어야 한다. (POST방식)
+    """
+    if request.method == 'POST' :
+        # 텍스트 데이터(request.POST) + 업로드된 파일(request.FILES)
+        form = PostForm(request.POST, request.FILES)
+
+        if form.is_valid() :    # 데이터가 유효성 검증 후
+            post = form.save()  # 문자열 데이터는 DB에, 파일 데이터는 media 폴더에 저장
+            return redirect('post_list')
+
+    else :  # GET
+        form = PostForm()   # 비어있는 폼(form) 객체
+
+    return render(request, 'board/post_form.html', {'form' : form})
+
+
 
 # def hello(request) :
 #     myInfo = {

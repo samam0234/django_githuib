@@ -1,0 +1,132 @@
+{% extends '../base.html' %}
+
+{% block title %}게시글 작성{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <!-- ── 페이지 제목 영역 ───────────────────────────────── -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>게시글 작성</h2>
+            <a href="/board/" class="btn btn-outline-secondary">
+                목록으로
+            </a>
+        </div>
+
+        <!-- ── 게시글 작성 폼 카드 ───────────────────────────── -->
+        <div class="card">
+            <div class="card-body">
+
+                <!--
+                    method="post"             : 데이터를 POST 방식으로 전송
+                    enctype="multipart/form-data" : 파일 업로드를 위해 반드시 필요
+                    이 속성이 없으면 이미지/파일이 서버에 전달되지 않음
+                -->
+                <form method="post" enctype="multipart/form-data">
+
+                    <!-- CSRF 보안 토큰 (POST 폼에 반드시 포함) -->
+                    {% csrf_token %}
+
+                    <!-- ── 제목 필드 ──────────────────────────── -->
+                    <div class="mb-3">
+                        <!-- id_for_label: Django가 자동 생성한 id값 (id_title) -->
+                        <label for="{{ form.title.id_for_label }}"
+                               class="form-label fw-bold">
+                            {{ form.title.label }}  <!-- "제목" 출력 -->
+                        </label>
+
+                        <!-- forms.py에서 설정한 TextInput + form-control 클래스 적용 -->
+                        {{ form.title }}
+
+                        <!-- 유효성 검사 실패 시에만 오류 메시지 표시 -->
+                        {% if form.title.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.title.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- ── 내용 필드 ──────────────────────────── -->
+                    <div class="mb-3">
+                        <label for="{{ form.content.id_for_label }}"
+                               class="form-label fw-bold">
+                            {{ form.content.label }}  <!-- "내용" 출력 -->
+                        </label>
+
+                        <!-- forms.py에서 설정한 Textarea + form-control + rows=10 -->
+                        {{ form.content }}
+
+                        {% if form.content.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.content.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- ── 이미지 업로드 필드 ─────────────────── -->
+                    <div class="mb-3">
+                        <label for="{{ form.image.id_for_label }}"
+                               class="form-label fw-bold">
+                            {{ form.image.label }}  <!-- "이미지" 출력 -->
+                        </label>
+
+                        <!-- forms.py에서 설정한 ClearableFileInput + form-control -->
+                        <!-- → <input type="file" class="form-control"> 로 렌더링 -->
+                        {{ form.image }}
+
+                        <!-- 이미지는 선택 항목이므로 안내 문구 추가 -->
+                        <div class="form-text text-muted">
+                            선택 사항입니다. jpg, png, gif 등 이미지 파일을 첨부하세요.
+                        </div>
+
+                        {% if form.image.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.image.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- ── 첨부파일 업로드 필드 ───────────────── -->
+                    <div class="mb-3">
+                        <label for="{{ form.attachment.id_for_label }}"
+                               class="form-label fw-bold">
+                            {{ form.attachment.label }}  <!-- "첨부파일" 출력 -->
+                        </label>
+
+                        <!-- forms.py에서 설정한 ClearableFileInput + form-control -->
+                        {{ form.attachment }}
+
+                        <!-- 첨부파일 안내 문구 -->
+                        <div class="form-text text-muted">
+                            선택 사항입니다. pdf, docx, zip 등 파일을 첨부하세요.
+                        </div>
+
+                        {% if form.attachment.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.attachment.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- ── 버튼 영역 ───────────────────────────── -->
+                    <div class="d-flex justify-content-end gap-2">
+                        <!-- 취소 버튼: 목록 페이지로 이동 -->
+                        <a href="/board/"
+                           class="btn btn-outline-secondary">
+                            취소
+                        </a>
+                        <!-- 저장 버튼: form submit → POST 요청 발생 -->
+                        <button type="submit" class="btn btn-primary">
+                            저장하기
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <!-- ── 카드 끝 ──────────────────────────────────────── -->
+
+    </div>
+</div>
+{% endblock %}
