@@ -5,6 +5,7 @@ from board.models import Post, Postview
 from .forms import PostForm
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
+import os
 
 # 여기에 view 함수를 작성합니다.
 # 예 : 게시글 목록 보기, 게시글 작성 등
@@ -132,6 +133,31 @@ def post_edit(request, pk) :
         form = PostForm(instance=post) # 위에서 로딩해온 게시글 데이터로 폼을 채운다.
 
     return render(request, 'board/post_edit.html', {'form' : form, 'post' : post})
+
+
+def post_delete(request, pk) :
+    """
+        POST로 요청이 왔을 경우에만
+        pk(게시글 번호)를 넘겨 받아 게시글을 삭제한다.
+        단, 업로드된 파일이 있거나, 이미지가 있다면 파일 또한 삭제한다.
+
+    """
+
+    post = get_object_or_404(Post, id=pk)
+    if request.method == 'POST' :   # POST 요청인 경우에만 삭제 될 수 있도록
+        if post.attachment : # 첨부된 파일이 있다면?
+            if os.path.isfile(post.attachment.path) : #파일이라면...
+                os.remove(post.attachment.path)
+        
+        if post.image :     # 첨부된 이미지가 있다면?
+            if os.path.isfile(post.image.path) :
+                os.remove(post.image.path)
+        
+        post.delete()   # DB에서 레코드 삭제
+
+        return redirect('post_list')
+
+
 
 # def hello(request) :
 #     myInfo = {
