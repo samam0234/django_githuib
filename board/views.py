@@ -101,6 +101,7 @@ def post_create(request) :
         form = PostForm(request.POST, request.FILES)
 
         if form.is_valid() :    # 데이터가 유효성 검증 후
+            # form에는 유저도 pk(글번호)를 입력하지 않았고, pk가 없다 => insert수행
             post = form.save()  # 문자열 데이터는 DB에, 파일 데이터는 media 폴더에 저장
             return redirect('post_list')
 
@@ -123,7 +124,10 @@ def post_edit(request, pk) :
 
     post = get_object_or_404(Post, id=pk)  # pk번 글을 로딩해와서 post에 저장
     if request.method == "POST" :
-        pass
+        form = PostForm(request.POST, request.FILES, instance=post)    # 핵심
+        if form.is_valid() :
+            form.save() # form객체에 pk가 있다. => update로 바뀌어서 수행된다.
+            return redirect('post_detail', pk=post.id)  # 상세 페이지로 페이지 이동
     else :
         form = PostForm(instance=post) # 위에서 로딩해온 게시글 데이터로 폼을 채운다.
 

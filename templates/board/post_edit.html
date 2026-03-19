@@ -44,7 +44,7 @@
               {% if post.attachment %}
               <div class="mb-2 p-2 bg-light rounded">
                 <span class="text-muted small">현재 파일: </span>
-                <a href="{{ post.file.url }}" target="_blank" class="small">
+                <a href="{{ post.attachment.url }}" target="_blank" class="small">
                   {{ post.attachment.name }}
                 </a>
               </div>
@@ -52,7 +52,7 @@
 
               <!-- 파일 교체: 새 파일을 선택하면 교체, 선택 안 하면 기존 파일 유지 -->
               <input type="file"
-                     name="file"
+                     name="attachment"
                      id="id_file"
                      class="form-control">
               <div class="form-text">
