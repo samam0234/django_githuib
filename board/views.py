@@ -76,6 +76,7 @@ def post_detail(request, pk) :
     # return render(request, 'board/post_detail.html', {'post' : Post.objects.get(id=pk)})
     return render(request, 'board/post_detail.html', context)
 
+
 def get_client_ip(request) :
     """
         client_ip주소를 얻어오는 함수
@@ -88,13 +89,14 @@ def get_client_ip(request) :
         ip = request.META.get("REMOTE_ADDR")
     return ip
 
+
 def post_create(request) :
     """
         게시글 작성 버튼을 누르면 빈 폼이 있는 페이지가 응답되어야 하고,
         게시글 작성 후 "저장" 버튼을 누르면, 게시글이 db에 저장되고 업로드한 파일이 웹서버에 저장
         되어야 한다. (POST방식)
     """
-    if request.method == 'POST' :
+    if request.method == 'POST' :   # POST 요청이라면 (저장 버튼이 눌려졌다면)
         # 텍스트 데이터(request.POST) + 업로드된 파일(request.FILES)
         form = PostForm(request.POST, request.FILES)
 
@@ -102,12 +104,30 @@ def post_create(request) :
             post = form.save()  # 문자열 데이터는 DB에, 파일 데이터는 media 폴더에 저장
             return redirect('post_list')
 
-    else :  # GET
+    else :  # GET 요청이라면 ("글쓰기" 버튼을 눌렀다면)
         form = PostForm()   # 비어있는 폼(form) 객체
 
     return render(request, 'board/post_form.html', {'form' : form})
 
 
+def post_edit(request, pk) :
+    """
+        게시글 수정하는 함수
+        게시글 수정버튼을 클릭하면 pk(수정할 게시글 번호)의 글을 로딩해와
+        게시글 수정페이지에 넘겨줘야 함(post_form 재사용),
+
+        유저가 게시글을 수정하고, 저장 버튼(form태그의 submit => POST요청)을 누르면
+        수정된 게시글과 수정된 파일 및 이미지가 update 되어야 함. 
+    """
+    # Post.objects.get(id=pk) # 단점은 객체가 존재하지 않으면 Post.DoesNotExist 예외가 발생한다.
+
+    post = get_object_or_404(Post, id=pk)  # pk번 글을 로딩해와서 post에 저장
+    if request.method == "POST" :
+        pass
+    else :
+        form = PostForm(instance=post) # 위에서 로딩해온 게시글 데이터로 폼을 채운다.
+
+    return render(request, 'board/post_edit.html', {'form' : form, 'post' : post})
 
 # def hello(request) :
 #     myInfo = {
