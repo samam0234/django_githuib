@@ -28,7 +28,7 @@ COPY . .
 
 # 정적 파일을 staticfiles/ 폴더에 모으기
 # Nginx가 이 폴더를 직접 서빙합니다
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
 
 # 8000번 포트 사용 명시
 EXPOSE 8000
