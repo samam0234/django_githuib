@@ -98,11 +98,11 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # MariaDB도 MySQL 엔진 사용
-        'NAME': 'mydb',                         # DB 이름
-        'USER': 'root',                       # 사용자
-        'PASSWORD': '1234',                     # 비밀번호
-        'HOST': '127.0.0.1',                    # DB 서버
-        'PORT': '3307',                         # 포트
+        'NAME': os.environ.get('DB_NAME'),                         # DB 이름
+        'USER': os.environ.get('DB_USER'),                       # 사용자
+        'PASSWORD': os.environ.get('DB_PASSWORD'),                     # 비밀번호
+        'HOST': os.environ.get('DB_HOST'),                    # DB 서버
+        'PORT': os.environ.get('DB_PORT'),                         # 포트
     }
 }
 
@@ -143,9 +143,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 # CSS, JS, Image 등과 같은 정적파일의 URL 경로 설정
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+# Nginx가 아래의 경로로 파일을 서빙(재조립후 복사)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# 테스트 서버(manage.py runserver 일때 파일 서빙)
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
 
 # 미디어 파일(업로드 파일)이 저장될 실제 폴더 경로
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
