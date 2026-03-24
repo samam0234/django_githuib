@@ -23,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # 쿠키 암호화, 세션 보안, CSRF 보안 등에 사용되는 키
-SECRET_KEY = 'django-insecure-wzg(y13-a@zguol3x3@i+kwbwstk=o%=2)+3f&h7gyro6c8*ed'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', 'django-insecure-wzg(y13-a@zguol3x3@i+kwbwstk=o%=2)+3f&h7gyro6c8*ed'
+    )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 개방중에 오류가 발생했을 때 오류 정보를 화면에 보여줄지 말지 결정
@@ -31,7 +33,9 @@ SECRET_KEY = 'django-insecure-wzg(y13-a@zguol3x3@i+kwbwstk=o%=2)+3f&h7gyro6c8*ed
 DEBUG = True
 
 # 이 웹 사이트에 접속을 허용할 주소 목록
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get(
+    "ALLOWED_HOSTS", "localhost 127.0.0.1"
+).split()
 
 
 # Application definition
